@@ -1,0 +1,34 @@
+#define LED_BUILTIN 4
+#define EXTERNAL 2
+#include <HCSR04.h>
+HCSR04 hc(8,9); 
+void setup() {
+   pinMode(LED_BUILTIN, OUTPUT); //left light
+   pinMode(EXTERNAL, OUTPUT); //right light
+   pinMode(SensorL,INPUT);  
+   pinMode(SensorR,INPUT); 
+   Serial.begin(9600);
+}
+
+void loop() {
+ if(digitalRead(SensorL)==HIGH) //detectLeft
+ {
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(EXTERNAL, HIGH);
+ }
+  else if(digitalRead(SensorR)==HIGH)//detectRight
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(EXTERNAL, LOW);
+    }
+    else if(Serial.println(hc.dist()==HIGH) )//detectFront
+    {
+      digitalWrite(LED_BUILTIN, LOW);
+     digitalWrite(EXTERNAL, LOW);
+    }
+        else if(Serial.println(hc.dist()==LOW) )//NotdetectFront
+    {
+      digitalWrite(LED_BUILTIN, HIGH);
+     digitalWrite(EXTERNAL, HIGH);
+    }
+    }

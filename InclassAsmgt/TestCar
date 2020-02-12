@@ -1,34 +1,51 @@
-#define LED_BUILTIN 4
-#define EXTERNAL 2
 #include <HCSR04.h>
 HCSR04 hc(8,9); 
+int SensorL=4; //right LED
+int SensorR=2; //left LED
+int LEDRight=12; //Yellow LED
 void setup() {
+   Serial.begin(9600);
    pinMode(LED_BUILTIN, OUTPUT); //left light
-   pinMode(EXTERNAL, OUTPUT); //right light
+   pinMode(LEDRight, OUTPUT); //right light
    pinMode(SensorL,INPUT);  
    pinMode(SensorR,INPUT); 
-   Serial.begin(9600);
+
 }
 
 void loop() {
- if(digitalRead(SensorL)==HIGH) //detectLeft
+ 
+
+ if(digitalRead(2)==HIGH) //detectLeft
  {
   digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(EXTERNAL, HIGH);
+  digitalWrite(LEDRight, HIGH);
+   delay(100);
  }
-  else if(digitalRead(SensorR)==HIGH)//detectRight
+  else if(digitalRead(4)==HIGH)//detectRight
   {
     digitalWrite(LED_BUILTIN, HIGH);
-    digitalWrite(EXTERNAL, LOW);
+    digitalWrite(LEDRight, LOW);
+     delay(100);
+  }
+    else if(hc.dist()<20)//detectFront20cm
+    { digitalWrite(LED_BUILTIN,LOW);
+    digitalWrite(LEDRight,LOW);
+    delay(100);
     }
-    else if(Serial.println(hc.dist()==HIGH) )//detectFront
-    {
-      digitalWrite(LED_BUILTIN, LOW);
-     digitalWrite(EXTERNAL, LOW);
+    else if(hc.dist()>40)//ObjFar40cm
+    { digitalWrite(LED_BUILTIN,HIGH);
+    digitalWrite(LEDRight,HIGH);
+    delay(100);
     }
-        else if(Serial.println(hc.dist()==LOW) )//NotdetectFront
-    {
-      digitalWrite(LED_BUILTIN, HIGH);
-     digitalWrite(EXTERNAL, HIGH);
+    else if(hc.dist()>=20 && hc.dist()<=40)//detectFront20to40cm
+    { 
+      delay(1000);
+      digitalWrite(LED_BUILTIN,HIGH);
+       digitalWrite(LEDRight,HIGH);
+       delay(1000);
     }
-    }
+   else
+   {digitalWrite(LED_BUILTIN,LOW);
+       digitalWrite(LEDRight,LOW);
+   }
+  }

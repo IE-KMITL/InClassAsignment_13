@@ -15,13 +15,13 @@ void setup() {
 void loop() {
  
 
- if(digitalRead(2)==HIGH) //detectLeft
+ if(digitalRead(2)==LOW) //detectLeft
  {
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(LEDRight, HIGH);
    delay(100);
  }
-  else if(digitalRead(4)==HIGH)//detectRight
+  else if(digitalRead(4)==LOW)//detectRight
   {
     digitalWrite(LED_BUILTIN, HIGH);
     digitalWrite(LEDRight, LOW);

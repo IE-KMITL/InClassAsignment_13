@@ -1,6 +1,6 @@
-#define ia1 7
-#define ia2 6
-#define ib1 5
+#define ia1 3
+#define ia2 5
+#define ib1 6
 #define ib2 4
 
 #define maxSpd 255    // motor max speed

@@ -1,0 +1,82 @@
+#include <HCSR04.h>
+HCSR04 hc(1,2); //initialisation class HCSR04 (trig,echo);
+#define ia1 3 //left 1
+#define ia2 4 //left 2
+#define ib1 5 //right 1
+#define ib2 6 //right 2
+#define ic1 7 //front 2
+#define ic2 8 //front 2
+#define S4 13
+#define maxSpd 255    // motor max speed
+
+
+void setup() {
+  pinMode(ia1, OUTPUT);
+  pinMode(ia2, OUTPUT);
+  pinMode(ib1, OUTPUT);
+  pinMode(ib2, OUTPUT);
+  pinMode(ic1, OUTPUT);
+  pinMode(ic2, OUTPUT);
+  pinMode(S4,INPUT);
+  Serial.begin(9600);
+ 
+}
+
+void loop() {
+  Sensor1;
+  Sensor4;
+
+
+}
+void Sensor1() //ultrasonic
+{
+  Serial.println(hc.dist() ); 
+    if(hc.dist()<=15){
+       Forward;}
+    else{
+        Break;}
+}
+void Sensor4()
+{
+  Serial.println(hc.dist() ); 
+    if(digitalRead(S4)==HIGH){
+        Serial.println("sensor detected object from right side");
+        delay(200);   
+        Reward;} 
+    else{
+        Break;}
+  
+}
+
+void Break() // motor break
+{
+  digitalWrite(ia1, HIGH);   
+  digitalWrite(ia2, HIGH);  
+  digitalWrite(ib1, HIGH);   
+  digitalWrite(ib2, HIGH); 
+  digitalWrite(ic1, HIGH);   
+  digitalWrite(ic2, HIGH);   
+}
+
+
+void Forward(int speed) //goforward
+{
+  digitalWrite(ia1, LOW);   
+  analogWrite(ia2, speed);   
+  digitalWrite(ib1, LOW);   
+  analogWrite(ib2, speed); 
+  digitalWrite(ic1, LOW);   
+  analogWrite(ic2, speed); 
+  
+}
+
+
+void Reward(int speed) //goReward
+{
+  digitalWrite(ia2, LOW);   
+  analogWrite(ia1, speed);   
+  digitalWrite(ib2, LOW);   
+  analogWrite(ib1, speed);  
+  digitalWrite(ic2, LOW);   
+  analogWrite(ic1, speed);  
+}

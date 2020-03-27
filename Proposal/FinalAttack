@@ -6,9 +6,11 @@ HCSR04 hc(1,2); //initialisation class HCSR04 (trig,echo);
 #define ib2 6 //right 2
 #define ic1 7 //front 2
 #define ic2 8 //front 2
+#define S2 11
+#define S3 12
 #define maxSpd 255    // motor max speed
-int x;
- 
+
+
 void setup() {
   pinMode(ia1, OUTPUT);
   pinMode(ia2, OUTPUT);
@@ -16,18 +18,48 @@ void setup() {
   pinMode(ib2, OUTPUT);
   pinMode(ic1, OUTPUT);
   pinMode(ic2, OUTPUT);
+  pinMode(S2,INPUT);
+  pinMode(S3,INPUT);
   Serial.begin(9600);
  
 }
 
 void loop() {
+  Sensor1;
+  Sensor2;
+  Sensor3;
+
 
 }
 void Sensor1() //ultrasonic
 {
   Serial.println(hc.dist() ); //showdistantfromfront
-    if((hc.dist()>=8) && (hc.dist()<10)){
-        x=2;}
+    if((hc.dist()>=5) && (hc.dist()<=10)){
+       Slow;}
+    else if ((hc.dist()>=3) && (hc.dist()<5)){
+        Break;}
+    else if ((hc.dist()>=0) && (hc.dist()<3)){
+        Reward;}
+    else{
+        Forward;}
+}
+void Sensor2(){
+  if(digitalRead(S2)==HIGH){
+        Serial.println("sensor detected object from left side");
+        delay(200);   
+        Turnleft;} 
+   else{
+    Forward;
+   }
+}
+void Sensor3(){
+  if(digitalRead(S3)==HIGH){
+        Serial.println("sensor detected object from right side");
+        delay(200);   
+        TurnRight;} 
+        else{
+    Forward;
+        }
 }
 
 void Break() // motor break

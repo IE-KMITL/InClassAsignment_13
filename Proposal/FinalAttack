@@ -22,43 +22,48 @@ void setup() {
   pinMode(S3,INPUT);
   Serial.begin(9600);
  
+ 
 }
 
 void loop() {
-  Sensor1;
-  Sensor2;
-  Sensor3;
+  int speed = maxSpd;
+  Sensor1();
+  Sensor2();
+  Sensor3();
 
 
 }
 void Sensor1() //ultrasonic
 {
+   int speed = maxSpd;
   Serial.println(hc.dist() ); //showdistantfromfront
     if((hc.dist()>=5) && (hc.dist()<=10)){
-       Slow;}
+       Slow(speed);}
     else if ((hc.dist()>=3) && (hc.dist()<5)){
-        Break;}
+        Break();}
     else if ((hc.dist()>=0) && (hc.dist()<3)){
-        Reward;}
+        Reward(speed);}
     else{
-        Forward;}
+        Forward(speed);}
 }
 void Sensor2(){
-  if(digitalRead(S2)==HIGH){
+    int speed = maxSpd;
+  if(digitalRead(S2)==LOW){
         Serial.println("sensor detected object from left side");
         delay(200);   
-        Turnleft;} 
+        Turnleft(speed);} 
    else{
     Forward;
    }
 }
 void Sensor3(){
-  if(digitalRead(S3)==HIGH){
+    int speed = maxSpd;
+  if(digitalRead(S3)==LOW){
         Serial.println("sensor detected object from right side");
         delay(200);   
-        TurnRight;} 
+        TurnRight(speed);} 
         else{
-    Forward;
+    Forward(speed);
         }
 }
 

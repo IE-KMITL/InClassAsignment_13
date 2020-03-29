@@ -1,12 +1,17 @@
 #include <HCSR04.h>
-HCSR04 hc(1,2); //initialisation class HCSR04 (trig,echo);
-#define ia1 3 //left 1
-#define ia2 4 //left 2
-#define ib1 5 //right 1
-#define ib2 6 //right 2
-#define ic1 7 //front 2
-#define ic2 8 //front 2
-#define S4 13
+HCSR04 hc(9,10);
+HCSR04 hc2(11,12); //initialisation class HCSR04 (trig,echo);
+#define ia1 1
+#define ia2 2
+#define ib1 3
+#define ib2 4 
+#define ic1 5 
+#define ic2 6 
+#define id1 7 
+#define id2 8 
+#define S2 13
+#define S3 0
+#define SBt A0 
 #define maxSpd 255    // motor max speed
 
 
@@ -17,37 +22,38 @@ void setup() {
   pinMode(ib2, OUTPUT);
   pinMode(ic1, OUTPUT);
   pinMode(ic2, OUTPUT);
-  pinMode(S4,INPUT);
+  pinMode(id1, OUTPUT);
+  pinMode(id2, OUTPUT);
+  pinMode(S2,INPUT);
+  pinMode(S3,INPUT);
+  pinMode(SBt,INPUT);
   Serial.begin(9600);
  
 }
-
 void loop() {
-  Sensor1;
-  Sensor4;
-
-
+  int speed = maxSpd;
+   Sensor1();
+   Sensor4();
+  
 }
 void Sensor1() //ultrasonic
 {
-  Serial.println(hc.dist() ); 
-    if(hc.dist()<=15){
-       Forward;}
+   int speed = maxSpd;
+  Serial.println(hc2.dist() ); //showdistantfromfront
+    if((hc2.dist()>=0) && (hc2.dist()<=15)){
+       Forward(speed);}
     else{
-        Break;}
+        Break();}
 }
-void Sensor4()
+void Sensor4() //ultrasonic
 {
-  Serial.println(hc.dist() ); 
-    if(digitalRead(S4)==HIGH){
-        Serial.println("sensor detected object from right side");
-        delay(200);   
-        Reward;} 
+   int speed = maxSpd;
+  Serial.println(hc2.dist() ); //showdistantfromfront
+    if((hc2.dist()>=0) && (hc2.dist()<=15)){
+       Reward(speed);}
     else{
-        Break;}
-  
+        Break();}
 }
-
 void Break() // motor break
 {
   digitalWrite(ia1, HIGH);   
@@ -56,9 +62,9 @@ void Break() // motor break
   digitalWrite(ib2, HIGH); 
   digitalWrite(ic1, HIGH);   
   digitalWrite(ic2, HIGH);   
+  digitalWrite(id1, HIGH);   
+  digitalWrite(id2, HIGH);  
 }
-
-
 void Forward(int speed) //goforward
 {
   digitalWrite(ia1, LOW);   
@@ -67,10 +73,10 @@ void Forward(int speed) //goforward
   analogWrite(ib2, speed); 
   digitalWrite(ic1, LOW);   
   analogWrite(ic2, speed); 
+  digitalWrite(id1, LOW);   
+  analogWrite(id2, speed); 
   
 }
-
-
 void Reward(int speed) //goReward
 {
   digitalWrite(ia2, LOW);   
@@ -79,4 +85,6 @@ void Reward(int speed) //goReward
   analogWrite(ib1, speed);  
   digitalWrite(ic2, LOW);   
   analogWrite(ic1, speed);  
+  digitalWrite(id2, LOW);   
+  analogWrite(id1, speed);  
 }
